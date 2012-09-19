@@ -6,8 +6,6 @@ blasctlurl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/b
 outdir      = "/usr"
 ropts       = []
 
-startdir    = os.getcwd()
-
 import os, shutil, urllib2
 from functions import execute
 from os import path
@@ -18,6 +16,7 @@ except ImportError:
     print '\nInstalling Beautiful Soup'
     execute("easy_install beautifulsoup4", "could not install html5lib")
 
+startdir = os.getcwd()
 
 ###############
 ## Install R ##
