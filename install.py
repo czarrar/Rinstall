@@ -14,7 +14,8 @@ try:
     from bs4 import BeautifulSoup
 except ImportError:
     print '\nInstalling Beautiful Soup'
-    execute("easy_install beautifulsoup4", "could not install html5lib")
+    execute("easy_install beautifulsoup4", "could not install beautifulsoup4")
+    from bs4 import BeautifulSoup
 
 startdir = os.getcwd()
 
