@@ -2,7 +2,7 @@
 
 rbaseurl    = "http://cran.r-project.org/src/base/R-2"
 blasurl     = "https://github.com/xianyi/OpenBLAS/zipball/master"
-blascturl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/blasctl_0.2.tar.gz"
+blasctlurl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/blasctl_0.2.tar.gz"
 outdir      = "/usr"
 ropts       = []
 
@@ -71,6 +71,7 @@ execute('make install', 'install of R failed')
 print '\nDone, removing source directory'
 os.chdir(startdir)
 shutil.rmtree(dirname)
+os.remove("r_latest.tar.gz")
 
 print '============\n'
 
@@ -108,6 +109,7 @@ shutil.copy2(openblas_file, path.join(rdir, 'libRblas.so'))
 print '\nDone, removing source directory'
 os.chdir(startdir)
 shutil.rmtree(dirname)
+os.remove("openblas.zip")
 
 print '===================\n'
 
@@ -120,11 +122,11 @@ print '\n============================'
 print 'Installing R Package blasctl'
 
 print '\nDownloading and Extracting'
-execute("wget -O blasct.tar.gz %s" % blascturl, "download failure")
-execute("tar -xzvf blasct.tar.gz", "extraction failure")
+execute("wget -O blasctl.tar.gz %s" % blasctlurl, "download failure")
+execute("tar -xzvf blasctl.tar.gz", "extraction failure")
 
 print '\nGetting Output Name'
-tmp = execute('tar -tzf blasct.tar.gz | head -n 1', \
+tmp = execute('tar -tzf blasctl.tar.gz | head -n 1', \
               'could not figure out directory name', \
               capture_output=True)
 dirname = tmp.strip().strip('/$')
@@ -132,5 +134,10 @@ dirname = tmp.strip().strip('/$')
 print '\nInstalling'
 r = path.join(outdir, 'bin', 'R')
 execute("%s CMD INSTALL %s" % (r, dirname), "couldn't install R package")
+
+print '\nDone, removing source directory'
+os.chdir(startdir)
+shutil.rmtree(dirname)
+os.remove("blasctl.tar.gz")
 
 print '============================\n'
