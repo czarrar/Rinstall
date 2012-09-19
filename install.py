@@ -2,13 +2,27 @@
 
 rbaseurl    = "http://cran.r-project.org/src/base/R-2"
 blasurl     = "https://github.com/xianyi/OpenBLAS/zipball/master"
-blasctlurl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/blasctl_0.2.tar.gz"
+blascturl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/blasctl_0.2.tar.gz"
 outdir      = "/usr"
 ropts       = []
 
 import os, shutil, urllib2
 from functions import execute
 from os import path
+from subprocess import Popen, PIPE
+
+def execute(command, error_message, capture_output=False):
+    """Run command on command-line"""
+    stdout = PIPE if capture_output else None
+    
+    print command
+    p = Popen(command, shell=True, stdout=stdout)    
+    (out,err) = p.communicate()
+    
+    if p.returncode != 0:
+        raise SystemExit('\nERROR: %s' % error_message)
+    
+    return out
 
 try:
     from bs4 import BeautifulSoup
@@ -18,6 +32,7 @@ except ImportError:
     raise SystemExit('\nInstalled prerequisite software. Please rerun program.')
 
 startdir = os.getcwd()
+
 
 ###############
 ## Install R ##
@@ -117,3 +132,5 @@ dirname = tmp.strip().strip('/$')
 print '\nInstalling'
 r = path.join(outdir, 'bin', 'R')
 execute("%s CMD INSTALL %s" % (r, dirname), "couldn't install R package")
+
+print '============================\n'
