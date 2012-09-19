@@ -15,7 +15,7 @@ try:
 except ImportError:
     print '\nInstalling Beautiful Soup'
     execute("easy_install beautifulsoup4", "could not install beautifulsoup4")
-    from bs4 import BeautifulSoup
+    raise SystemExit('\nInstalled prerequisite software. Please rerun program.')
 
 startdir = os.getcwd()
 
@@ -48,7 +48,7 @@ dirname = tmp.strip().strip('/$')
 os.chdir(dirname)
 
 print '\nCompiling and Installing'
-execute('./configure --prefix %s %s' % outdir, " ".join(ropts), \
+execute('./configure --prefix %s %s' % (outdir, " ".join(ropts)), \
         'configure of R failed')
 execute('make', 'make of R failed')
 execute('make install', 'install of R failed')
