@@ -3,13 +3,23 @@
 rbaseurl    = "http://cran.r-project.org/src/base/R-2"
 blasurl     = "https://github.com/xianyi/OpenBLAS/zipball/master"
 blasctlurl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/blasctl_0.2.tar.gz"
-outdir      = "/usr"
-ropts       = []
 
 import os, shutil, urllib2
-from functions import execute
 from os import path
 from subprocess import Popen, PIPE
+
+import argparse
+parser = argparse.ArgumentParser(description="""Install R with multi-threaded
+                                    capabilities""")
+parser.add_argument('-o', '--outdir', default='/usr', help="""In which 
+                    directory should R be installed (default: %(default)s)""")
+parser.add_argument('--r-opts', default=[], nargs='+', help="""Additional 
+                    options to be used when running configure for R""")
+
+
+args = parser.parse_args()
+print args
+raise SystemExit(1)
 
 def execute(command, error_message, capture_output=False):
     """Run command on command-line"""
@@ -25,10 +35,10 @@ def execute(command, error_message, capture_output=False):
     return out
 
 try:
-    from bs4 import BeautifulSoup
+    import mechanize
 except ImportError:
-    print '\nInstalling Beautiful Soup'
-    execute("easy_install beautifulsoup4", "could not install beautifulsoup4")
+    print '\nInstalling mechanize'
+    execute("easy_install mechanize", "could not install mechanize")
     raise SystemExit('\nInstalled prerequisite software. Please rerun program.')
 
 startdir = os.getcwd()
@@ -43,13 +53,10 @@ print 'Installing R'
 
 # Get the url and filename to the latest version of R
 print '\nFetching download url'
-f       = urllib2.urlopen(rbaseurl)
-htmldoc = f.read()
-soup    = BeautifulSoup(htmldoc)
-links   = soup.find_all('a')
-links   = [ l.get('href') for l in links if l.get('href')[0:2] == 'R-' ]
-link    = "%s/%s" % (rbaseurl, links[-1])
-f.close()
+
+br = mechanize.Browser()
+br.open(rbaseurl)
+link = [ l for l in br.links(url_regex="R-") ][-1]
 
 print '\nDownloading and Extracting'
 execute("wget -O r_latest.tar.gz %s" % link, "download failure")
@@ -63,7 +70,7 @@ dirname = tmp.strip().strip('/$')
 os.chdir(dirname)
 
 print '\nCompiling and Installing'
-execute('./configure --prefix %s %s' % (outdir, " ".join(ropts)), \
+execute('./configure --prefix %s %s' % (args.outdir, " ".join(args.ropts)), \
         'configure of R failed')
 execute('make', 'make of R failed')
 execute('make install', 'install of R failed')
@@ -98,8 +105,8 @@ execute('make', 'make of OpenBlas failed')
 
 print '\nInstalling'
 # archive default BLAS library
-rdir1   = path.join(outdir, 'lib64', 'R', 'lib')
-rdir2   = path.join(outdir, 'lib', 'R', 'lib')
+rdir1   = path.join(args.outdir, 'lib64', 'R', 'lib')
+rdir2   = path.join(args.outdir, 'lib', 'R', 'lib')
 rdir    = rdir1 if os.path.isdir(rdir1) else rdir2
 shutil.move(path.join(rdir,'libRblas.so'), path.join(rdir,'libRblas.so.keep'))
 # copy over OpenBlas library
@@ -132,7 +139,7 @@ tmp = execute('tar -tzf blasctl.tar.gz | head -n 1', \
 dirname = tmp.strip().strip('/$')
 
 print '\nInstalling'
-r = path.join(outdir, 'bin', 'R')
+r = path.join(args.outdir, 'bin', 'R')
 execute("%s CMD INSTALL %s" % (r, dirname), "couldn't install R package")
 
 print '\nDone, removing source directory'
