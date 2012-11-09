@@ -1,5 +1,14 @@
 #!/usr/bin/env python
 
+# AUTHOR: Zarrar Shehzad
+# DATE: October, 26, 2012
+# VERSION: 0.1
+
+
+#############################
+## Variables and Libraries ##
+#############################
+
 rbaseurl    = "http://cran.r-project.org/src/base/R-2"
 blasurl     = "https://github.com/xianyi/OpenBLAS/zipball/master"
 blasctlurl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/blasctl_0.2.tar.gz"
@@ -7,19 +16,6 @@ blasctlurl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/b
 import os, shutil, urllib2
 from os import path
 from subprocess import Popen, PIPE
-
-import argparse
-parser = argparse.ArgumentParser(description="""Install R with multi-threaded
-                                    capabilities""")
-parser.add_argument('-o', '--outdir', default='/usr', help="""In which 
-                    directory should R be installed (default: %(default)s)""")
-parser.add_argument('--r-opts', default=[], nargs='+', help="""Additional 
-                    options to be used when running configure for R""")
-
-
-args = parser.parse_args()
-print args
-raise SystemExit(1)
 
 def execute(command, error_message, capture_output=False):
     """Run command on command-line"""
@@ -41,7 +37,35 @@ except ImportError:
     execute("easy_install mechanize", "could not install mechanize")
     raise SystemExit('\nInstalled prerequisite software. Please rerun program.')
 
+
+###############
+## User Args ##
+###############
+
+import argparse
+parser = argparse.ArgumentParser(description="""Install R with multi-threaded
+                                    capabilities""")
+parser.add_argument('-o', '--outdir', default='/usr', help="""In which 
+                    directory should R be installed (default: %(default)s)""")
+parser.add_argument('--r-opts', default=[], nargs='+', help="""Additional 
+                    options to be used when running configure for R""")
+
+args = parser.parse_args()
+
+
+#################
+## Other Setup ##
+#################
+
 startdir = os.getcwd()
+if os.getenv("PATH").find(path.join(args.outdir, "bin")) == -1:
+    while True:
+        msg = "%s is not in your path, would you like to add it [Y/n]?" % args.outdir
+        add_to_path = raw_input(msg).lower()
+        if add_to_path == '': add_to_path = 'y'
+        if add_to_path in ['y', 'n']: break
+else:
+    add_to_path = 'n'
 
 
 ###############
@@ -148,3 +172,22 @@ shutil.rmtree(dirname)
 os.remove("blasctl.tar.gz")
 
 print '============================\n'
+
+
+###################
+## Add R to path ##
+###################
+
+if add_to_path == 'y':
+    print '\n====================='
+    print 'Adding R to your path'
+    
+    fname = path.expanduser("~/.bashrc")
+    f = open(fname, 'a')
+    f.write("\nexport PATH=%s/bin:$PATH\n" % args.outdir)
+    f.close()
+
+    print '=====================\n'
+
+
+print "ALL DONE!!!"
