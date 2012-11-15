@@ -81,6 +81,7 @@ print '\nFetching download url'
 br = mechanize.Browser()
 br.open(rbaseurl)
 link = [ l for l in br.links(url_regex="R-") ][-1]
+link = link.absolute_url
 
 print '\nDownloading and Extracting'
 execute("wget -O r_latest.tar.gz %s" % link, "download failure")
@@ -94,7 +95,7 @@ dirname = tmp.strip().strip('/$')
 os.chdir(dirname)
 
 print '\nCompiling and Installing'
-execute('./configure --prefix %s %s' % (args.outdir, " ".join(args.ropts)), \
+execute('./configure --prefix %s %s' % (args.outdir, " ".join(args.r_opts)), \
         'configure of R failed')
 execute('make', 'make of R failed')
 execute('make install', 'install of R failed')
