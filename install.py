@@ -154,7 +154,7 @@ print '\n============================'
 print 'Installing R Package blasctl'
 
 print '\nDownloading and Extracting'
-execute("wget -O blasctl.tar.gz %s" % blasctlurl, "download failure")
+execute("wget --no-check-certificate -O blasctl.tar.gz %s" % blasctlurl, "download failure")
 execute("tar -xzvf blasctl.tar.gz", "extraction failure")
 
 print '\nGetting Output Name'
