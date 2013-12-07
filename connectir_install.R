@@ -24,7 +24,7 @@ install.packages(
 
 # Install BigAlgebra
 cat("\nInstalling bigalgebra\n")
-run("svn checkout svn://scm.r-forge.r-project.org/svnroot/bigmemory")
+run("svn checkout svn://svn.r-forge.r-project.org/svnroot/bigmemory/")
 setwd("bigmemory/pkg")
 run("R CMD INSTALL bigalgebra")
 setwd(basedir)
