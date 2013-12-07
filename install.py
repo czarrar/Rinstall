@@ -9,7 +9,7 @@
 ## Variables and Libraries ##
 #############################
 
-rbaseurl    = "http://cran.r-project.org/src/base/R-2"
+rbaseurl    = "http://cran.r-project.org/src/base/R-3"
 blasurl     = "https://github.com/xianyi/OpenBLAS/zipball/master"
 blasctlurl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/blasctl_0.2.tar.gz"
 
