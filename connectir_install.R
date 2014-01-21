@@ -32,7 +32,7 @@ run("rm -rf bigmemory")
 
 # Installing niftir and friends
 cat("\nInstalling connectir and friends\n")
-run("git clonse https://github.com/czarrar/bigextensions.git")
+run("git clone https://github.com/czarrar/bigextensions.git")
 setwd("bigextensions")
 run("R CMD INSTALL bigextensions")
 run("git clone https://github.com/czarrar/niftir.git")
