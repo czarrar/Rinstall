@@ -4,6 +4,12 @@
 # DATE: October, 26, 2012
 # VERSION: 0.1
 
+# FAQ:
+# If you have errors related to installing openblas because of fortran
+# consider using a different version of fortran.
+#
+# Also you can skip installing the openblas library.
+
 
 #############################
 ## Variables and Libraries ##
