@@ -116,7 +116,7 @@ print '\n==================='
 print 'Installing OpenBlas'
 
 print '\nDownloading and Extracting'
-execute("wget -O openblas.zip %s" % blasurl, "download failure")
+execute("wget --no-check-certificate -O openblas.zip %s" % blasurl, "download failure")
 execute('unzip openblas.zip', "extraction failure")
 
 print '\nChanging Directories'
