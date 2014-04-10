@@ -18,24 +18,18 @@ install.packages(
         "bigmemory", "biganalytics", "bigmemory.sri")
 , repos="http://cran.us.r-project.org")
 install.packages(
-    c("plyr", "Rcpp", "RcppArmadillo", "inline"), 
+    c("plyr", "Rcpp", "RcppArmadillo", "inline", "devtools"), 
     dependencies=TRUE
 , repos="http://cran.us.r-project.org")
 
 # Install BigAlgebra
 cat("\nInstalling bigalgebra\n")
-run("svn checkout svn://svn.r-forge.r-project.org/svnroot/bigmemory/")
-setwd("bigmemory/pkg")
-run("R CMD INSTALL bigalgebra")
-setwd(basedir)
-run("rm -rf bigmemory")
+devtools::install_github("bigalgebra", "czarrar")
 
 # Installing niftir and friends
 cat("\nInstalling connectir and friends\n")
-run("git clone https://github.com/czarrar/bigextensions.git")
-run("R CMD INSTALL bigextensions")
-run("git clone https://github.com/czarrar/niftir.git")
-run("R CMD INSTALL niftir")
+devtools::install_github("bigextensions", "czarrar")
+devtools::install_github("niftir", "czarrar")
 run("git clone https://github.com/czarrar/connectir.git")
 run("R CMD INSTALL connectir")
 cat("\nCopying scripts for connectir\n")
@@ -44,6 +38,6 @@ system(sprintf("cp connectir/inst/scripts/*.R %s/", bindir))
 system(sprintf("rm -f %s/*_worker.R", bindir))
 system(sprintf("chmod +x %s/*.R", bindir))
 setwd(basedir)
-run("rm -rf bigextensions niftir connectir")
+run("rm -rf connectir")
 
 # TODO: add copying of scripts to some bin location
