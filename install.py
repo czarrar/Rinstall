@@ -17,7 +17,7 @@
 
 rbaseurl    = "http://cran.r-project.org/src/base/R-3"
 blasurl     = "https://github.com/xianyi/OpenBLAS/zipball/master"
-blasctlurl  = "http://prs.ism.ac.jp/~nakama/SurviveGotoBLAS2/blas_control_on_R/blasctl_0.2.tar.gz"
+blasctlurl  = "http://cran.r-project.org/src/contrib/RhpcBLASctl_0.14-72.tar.gz"
 
 import os, shutil, urllib2, sys
 from os import path
