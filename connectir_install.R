@@ -24,12 +24,12 @@ install.packages(
 
 # Install BigAlgebra
 cat("\nInstalling bigalgebra\n")
-devtools::install_github("bigalgebra", "czarrar")
+devtools::install_github("czarrar/bigalgebra")
 
 # Installing niftir and friends
 cat("\nInstalling connectir and friends\n")
-devtools::install_github("bigextensions", "czarrar")
-devtools::install_github("niftir", "czarrar")
+devtools::install_github("czarrar/bigextensions")
+devtools::install_github("czarrar/niftir")
 run("git clone https://github.com/czarrar/connectir.git")
 run("R CMD INSTALL connectir")
 cat("\nCopying scripts for connectir\n")
