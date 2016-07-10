@@ -21,6 +21,7 @@ install.packages(
     c("plyr", "Rcpp", "RcppArmadillo", "inline", "devtools"), 
     dependencies=TRUE
 , repos="http://cran.us.r-project.org")
+# If devtools fails then you will need to manually download the libraries from git and install them
 
 # Install BigAlgebra
 cat("\nInstalling bigalgebra\n")
