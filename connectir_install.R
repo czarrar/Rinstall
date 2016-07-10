@@ -15,7 +15,7 @@ run <- function(cmd) {
 cat("Installing various dependencies\n")
 install.packages(
     c("codetools", "foreach", "doMC", "getopt", "optparse", 
-        "bigmemory", "biganalytics", "bigmemory.sri")
+        "bigmemory", "biganalytics", "bigmemory.sri", "testthat")
 , repos="http://cran.us.r-project.org")
 install.packages(
     c("plyr", "Rcpp", "RcppArmadillo", "inline", "devtools"), 
