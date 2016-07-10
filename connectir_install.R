@@ -14,7 +14,7 @@ run <- function(cmd) {
 # Various Dependencies
 cat("Installing various dependencies\n")
 install.packages(
-    c("codetools", "foreach", "doMC", "multicore", "getopt", "optparse", 
+    c("codetools", "foreach", "doMC", "getopt", "optparse", 
         "bigmemory", "biganalytics", "bigmemory.sri")
 , repos="http://cran.us.r-project.org")
 install.packages(
